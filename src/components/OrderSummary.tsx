@@ -4,7 +4,7 @@ import { useOrder } from "../context/OrderContext";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Trash2Icon, MinusIcon, PlusIcon, Send, WhatsappIcon } from "lucide-react";
+import { Trash2Icon, MinusIcon, PlusIcon, Send, MessageSquare } from "lucide-react";
 import { formatPhoneNumber } from "../utils/formatters";
 import { toast } from "sonner";
 
@@ -186,7 +186,7 @@ export function OrderSummary() {
           size="lg"
           onClick={handleSendToWhatsApp}
         >
-          <WhatsappIcon className="mr-2 h-5 w-5" />
+          <MessageSquare className="mr-2 h-5 w-5" />
           Enviar para WhatsApp
         </Button>
       </CardFooter>
