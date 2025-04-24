@@ -1,19 +1,10 @@
-
 import { useState } from "react";
 import { useOrder } from "../context/OrderContext";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Trash2Icon, MinusIcon, PlusIcon, Send, MessageSquare } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { toast } from "sonner";
-
-// Lista de contatos do WhatsApp
-const whatsappContacts = [
-  { name: "Cozinha", number: "5511999999999" },
-  { name: "Gerente", number: "5511888888888" },
-  { name: "Balcão", number: "5511777777777" },
-];
 
 export function OrderSummary() {
   const { 
@@ -24,8 +15,6 @@ export function OrderSummary() {
     setCustomerName,
     resetOrder 
   } = useOrder();
-  
-  const [selectedContact, setSelectedContact] = useState("");
 
   if (!currentOrder) {
     return null;
@@ -34,11 +23,6 @@ export function OrderSummary() {
   const handleSendToWhatsApp = () => {
     if (currentOrder.items.length === 0) {
       toast.error("Adicione itens ao pedido antes de enviar.");
-      return;
-    }
-
-    if (!selectedContact) {
-      toast.error("Selecione para quem enviar o pedido.");
       return;
     }
 
@@ -66,17 +50,17 @@ export function OrderSummary() {
       // Encode the message for URL
       const encodedMessage = encodeURIComponent(message);
       
-      // Create the WhatsApp URL
-      const whatsappURL = `https://wa.me/${selectedContact}?text=${encodedMessage}`;
+      // Create the WhatsApp URL without a specific number
+      const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
       
       // Open WhatsApp in a new window
       window.open(whatsappURL, "_blank");
       
-      toast.success("Pedido enviado para o WhatsApp!");
+      toast.success("Pedido copiado para envio!");
       resetOrder();
       
     } catch (error) {
-      toast.error("Erro ao enviar para o WhatsApp. Tente novamente.");
+      toast.error("Erro ao abrir o WhatsApp. Tente novamente.");
       console.error("WhatsApp send error:", error);
     }
   };
@@ -110,24 +94,6 @@ export function OrderSummary() {
               onChange={(e) => setCustomerName(e.target.value)}
             />
           </div>
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">
-            Enviar para
-          </label>
-          <Select onValueChange={setSelectedContact} value={selectedContact}>
-            <SelectTrigger>
-              <SelectValue placeholder="Selecione o destinatário" />
-            </SelectTrigger>
-            <SelectContent>
-              {whatsappContacts.map((contact) => (
-                <SelectItem key={contact.number} value={contact.number}>
-                  {contact.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
         </div>
 
         <div className="border rounded-md">
