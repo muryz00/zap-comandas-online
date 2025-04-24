@@ -1,4 +1,3 @@
-
 export interface Product {
   id: string;
   name: string;
@@ -24,6 +23,11 @@ export interface Order {
 }
 
 export interface Waiter {
+  id: string;
+  name: string;
+}
+
+export interface Category {
   id: string;
   name: string;
 }
