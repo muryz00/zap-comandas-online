@@ -1,9 +1,10 @@
+
 import { useState } from "react";
 import { useOrder } from "../context/OrderContext";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, Minus as MinusIcon, Plus as PlusIcon, Trash2 as Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
 export function OrderSummary() {
