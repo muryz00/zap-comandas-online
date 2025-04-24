@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import { Product } from "../types";
@@ -46,40 +46,43 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <FormField name="name">
-            <FormItem>
-              <FormLabel>Nome do Produto</FormLabel>
-              <Input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Ex: X-Burger"
-              />
-            </FormItem>
-          </FormField>
+          <div className="space-y-2">
+            <label htmlFor="name" className="text-sm font-medium">
+              Nome do Produto
+            </label>
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Ex: X-Burger"
+            />
+          </div>
 
-          <FormField name="price">
-            <FormItem>
-              <FormLabel>Preço</FormLabel>
-              <Input
-                type="number"
-                step="0.01"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="Ex: 15.90"
-              />
-            </FormItem>
-          </FormField>
+          <div className="space-y-2">
+            <label htmlFor="price" className="text-sm font-medium">
+              Preço
+            </label>
+            <Input
+              id="price"
+              type="number"
+              step="0.01"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Ex: 15.90"
+            />
+          </div>
 
-          <FormField name="category">
-            <FormItem>
-              <FormLabel>Categoria</FormLabel>
-              <Input
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                placeholder="Ex: Food"
-              />
-            </FormItem>
-          </FormField>
+          <div className="space-y-2">
+            <label htmlFor="category" className="text-sm font-medium">
+              Categoria
+            </label>
+            <Input
+              id="category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              placeholder="Ex: Food"
+            />
+          </div>
 
           <Button type="submit" className="w-full">
             Adicionar Produto
