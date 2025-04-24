@@ -4,9 +4,16 @@ import { useOrder } from "../context/OrderContext";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Trash2Icon, MinusIcon, PlusIcon, Send, MessageSquare } from "lucide-react";
-import { formatPhoneNumber } from "../utils/formatters";
 import { toast } from "sonner";
+
+// Lista de contatos do WhatsApp
+const whatsappContacts = [
+  { name: "Cozinha", number: "5511999999999" },
+  { name: "Gerente", number: "5511888888888" },
+  { name: "Balcão", number: "5511777777777" },
+];
 
 export function OrderSummary() {
   const { 
@@ -18,7 +25,7 @@ export function OrderSummary() {
     resetOrder 
   } = useOrder();
   
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedContact, setSelectedContact] = useState("");
 
   if (!currentOrder) {
     return null;
@@ -30,14 +37,12 @@ export function OrderSummary() {
       return;
     }
 
-    if (!phoneNumber) {
-      toast.error("Informe o número de WhatsApp para enviar o pedido.");
+    if (!selectedContact) {
+      toast.error("Selecione para quem enviar o pedido.");
       return;
     }
 
-    try {
-      const formattedNumber = phoneNumber.replace(/\D/g, "");
-      
+    try {      
       // Create the order message
       let message = `*Novo Pedido*\n\n`;
       message += `*Atendente:* ${currentOrder.waiterName}\n`;
@@ -62,7 +67,7 @@ export function OrderSummary() {
       const encodedMessage = encodeURIComponent(message);
       
       // Create the WhatsApp URL
-      const whatsappURL = `https://wa.me/${formattedNumber}?text=${encodedMessage}`;
+      const whatsappURL = `https://wa.me/${selectedContact}?text=${encodedMessage}`;
       
       // Open WhatsApp in a new window
       window.open(whatsappURL, "_blank");
@@ -108,16 +113,21 @@ export function OrderSummary() {
         </div>
 
         <div>
-          <label htmlFor="phone" className="text-sm font-medium">
-            WhatsApp para Envio
+          <label className="text-sm font-medium">
+            Enviar para
           </label>
-          <Input
-            id="phone"
-            placeholder="(99) 99999-9999"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(formatPhoneNumber(e.target.value))}
-            maxLength={15}
-          />
+          <Select onValueChange={setSelectedContact} value={selectedContact}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o destinatário" />
+            </SelectTrigger>
+            <SelectContent>
+              {whatsappContacts.map((contact) => (
+                <SelectItem key={contact.number} value={contact.number}>
+                  {contact.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="border rounded-md">
